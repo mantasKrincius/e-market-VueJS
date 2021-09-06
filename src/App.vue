@@ -30,7 +30,8 @@ export default {
     this.$store.dispatch('getUserName')
     this.$store.dispatch('getAllPosts')
     this.$store.dispatch('getUserPosts')
-  }
+    this.$store.dispatch('getUserOrders')
+  },
 }
 </script>
 

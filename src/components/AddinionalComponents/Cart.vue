@@ -7,8 +7,10 @@
         <button @click="minus(item)">-</button>
         {{ items = item }}
         <div>Quantity: {{ item.quantity }}</div>
+        <button @click="remove(item)">Delete</button>
       </div>
     </div>
+    <h2>{{$store.state.message}}</h2>
     <button @click="buy">Buy</button>
   </div>
 </template>
@@ -28,10 +30,11 @@ export default {
         this.items = this.userCart[i]
         this.$store.dispatch('changeQuantity', this.items)
       }
-
-
       this.$store.dispatch("buy")
       console.log(this.items)
+    },
+    remove(item){
+      console.log(item)
     },
     add(item) {
       item.quantity++

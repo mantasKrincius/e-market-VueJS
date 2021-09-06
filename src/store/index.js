@@ -16,6 +16,7 @@ export default new Vuex.Store({
         message: "",
         userQuantity: 0,
         totalPay: 0,
+        userOrders: []
     },
     mutations: {
         userInfo(state, payload) {
@@ -43,6 +44,9 @@ export default new Vuex.Store({
         minus(state, payload) {
             state.userQuantity = payload
             console.log("user " + state.userQuantity)
+        },
+        userOrders(state, payload) {
+            state.userOrders = payload
         }
     },
 
@@ -52,7 +56,7 @@ export default new Vuex.Store({
             commit('userCart', payload)
         },
         add({commit, state}, payload) {
-         commit('add', payload)
+            commit('add', payload)
         },
         minus({commit, state}, payload) {
             commit('minus', payload)
@@ -193,6 +197,13 @@ export default new Vuex.Store({
                 userId: state.user._id,
                 products: state.userCart
             }
+
+            state.message = "Thank You"
+
+            setInterval(function () {
+                window.location.reload()
+            }, 2000);
+
             try {
                 let response = await fetch(`${state.url}/user/cart`, {
                     method: "POST",
@@ -201,12 +212,14 @@ export default new Vuex.Store({
                         userauth: state.token,
                     },
                     body: JSON.stringify(body)
+
                 });
+
 
                 if (response.status !== 200) throw await response.json();
                 let data = await response.json();
-
                 commit('userCart', data)
+
             } catch (e) {
                 console.log(e);
             }
@@ -234,7 +247,7 @@ export default new Vuex.Store({
                 _id: payload.data._id,
                 quantity: amount,
             }
-            console.log( state.user._id,)
+            console.log(state.user._id,)
             state.message = ""
             let response = await fetch(`${state.url}/products/quantity`, {
                 method: "POST",
@@ -248,8 +261,50 @@ export default new Vuex.Store({
             if (response.status !== 200) return alert("Something went wrong");
             let data = await response.json();
             console.log(data);
-        }
+        },
+        async editBE({commit, state}, payload) {
+            let id = payload._id
+            let description = payload.description
+            let name = payload.name
+            let price = payload.price
+            let quantity = payload.quantity
+            let userId = state.user.id
 
+            let body = {
+                userId: userId,
+                _id: id,
+                description: description,
+                price: price,
+                name: name,
+                quantity: quantity,
+            };
+            try {
+                let response = await fetch(`${state.url}/products/editProduct`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        userauth: state.token,
+                    },
+                    body: JSON.stringify(body),
+                });
+
+                if (response.status !== 200) throw await response.json();
+            } catch (e) {
+                console.log(e);
+            }
+        },
+        async getUserOrders({commit, state}, payload) {
+            let response = await fetch(`${state.url}/products/orders`, {
+                method: "GET",
+                headers: {
+                    userauth: state.token,
+                },
+            });
+
+            let data = await response.json();
+            console.log(data)
+            commit('userOrders', data)
+        },
     },
 
 })
