@@ -10,6 +10,7 @@ export default new Vuex.Store({
         allPosts: [],
         userPosts: [],
         singlePost: {},
+        singleProduct: {},
         userCart: [],
         token: "",
         message: "",
@@ -29,18 +30,33 @@ export default new Vuex.Store({
         moreInfo(state, payload) {
             state.singlePost = payload
         },
-        changeQuantity(state, payload) {
-            state.singlePost.quantity = payload
-        },
         userCart(state, payload) {
             state.userCart = [payload, ...state.userCart]
         },
         quantity(state, payload) {
             state.userQuantity = payload
         },
+        add(state, payload) {
+            state.userQuantity = payload
+            console.log("user " + state.userQuantity)
+        },
+        minus(state, payload) {
+            state.userQuantity = payload
+            console.log("user " + state.userQuantity)
+        }
     },
 
     actions: {
+        addToCart({commit, state}, payload) {
+            console.log(payload)
+            commit('userCart', payload)
+        },
+        add({commit, state}, payload) {
+         commit('add', payload)
+        },
+        minus({commit, state}, payload) {
+            commit('minus', payload)
+        },
         async register({commit, state}, payload) {
             let response = await fetch(`${state.url}/user/signUp`, {
                 method: "POST",
@@ -172,55 +188,28 @@ export default new Vuex.Store({
             });
             location.reload();
         },
+        async buy({commit, state}, payload) {
+            let body = {
+                userId: state.user._id,
+                products: state.userCart
+            }
+            try {
+                let response = await fetch(`${state.url}/user/cart`, {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        userauth: state.token,
+                    },
+                    body: JSON.stringify(body)
+                });
 
-        // async toCart({commit, state}, payload) {                                  
-        //                                                                           
-        //     let body = {                                                          
-        //         userId: state.user._id,                                           
-        //         price: payload.price,                                             
-        //         name: payload.name,                                               
-        //         quantity: state.userQuantity
-        //     }
-        //     try {
-        //         let response = await fetch(`${state.url}/user/cart`, {
-        //             method: "POST",
-        //             headers: {
-        //                 'Content-Type': 'application/json',
-        //                 userauth: state.token,
-        //             },
-        //             body: JSON.stringify(body)
-        //         });
-        //
-        //         if (response.status !== 200) throw await response.json();
-        //         let data = await response.json();
-        //         console.log(data)
-        //         commit('userCart', data)
-        //     } catch (e) {
-        //         console.log(e);
-        //     }
-        // },
-       async buy({commit, state}, payload){
-           let body = {
-               payload
-               //padaryti, kad saugotu array itemus i mongo
-           }
-           try {
-               let response = await fetch(`${state.url}/user/cart`, {
-                   method: "POST",
-                   headers: {
-                       'Content-Type': 'application/json',
-                       userauth: state.token,
-                   },
-                   body: JSON.stringify(body)
-               });
+                if (response.status !== 200) throw await response.json();
+                let data = await response.json();
 
-               if (response.status !== 200) throw await response.json();
-               let data = await response.json();
-               console.log(data)
-               commit('userCart', data)
-           } catch (e) {
-               console.log(e);
-           }
+                commit('userCart', data)
+            } catch (e) {
+                console.log(e);
+            }
         },
         async moreInfo({commit, state}, payload) {
             let body = {
@@ -240,38 +229,27 @@ export default new Vuex.Store({
             commit('moreInfo', car)
         },
         async changeQuantity({commit, state}, payload) {
-            if (payload.quantity >= state.userQuantity) {
-                let body = {
-                    _id: payload._id,
-                    quantity: payload.quantity - state.userQuantity,
-                }
-                state.message = ""
-                let response = await fetch(`${state.url}/products/quantity`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        userauth: state.token,
-                    },
-                    body: JSON.stringify(body),
-                });
-                console.log(response);
-                if (response.status !== 200) return alert("Something went wrong");
-                let data = await response.json();
-                console.log(data);
-            } else {
-                state.message = "no more brudda"
+            let amount = payload.data.quantity - payload.quantity
+            let body = {
+                _id: payload.data._id,
+                quantity: amount,
             }
-        },
-        addToCart({commit, state}, payload){
-            console.log(payload)
-            commit('userCart', payload)
-        },
-        add({commit, state}, payload){
-            payload.quantity++
-        },
-        minus({commit, state}, payload){
-            payload.quantity--
+            console.log( state.user._id,)
+            state.message = ""
+            let response = await fetch(`${state.url}/products/quantity`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    userauth: state.token,
+                },
+                body: JSON.stringify(body),
+            });
+            console.log(response);
+            if (response.status !== 200) return alert("Something went wrong");
+            let data = await response.json();
+            console.log(data);
         }
+
     },
 
 })

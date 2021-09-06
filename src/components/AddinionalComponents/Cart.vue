@@ -4,32 +4,51 @@
       <h3>Name: {{ item.data.name }}</h3>
       <div>
         <button @click="add(item)">+</button>
-        <button @click="minus(item)">Minus</button>
+        <button @click="minus(item)">-</button>
+        {{ items = item }}
         <div>Quantity: {{ item.quantity }}</div>
       </div>
     </div>
-    <button @click="buy(item)">Buy</button>
+    <button @click="buy">Buy</button>
   </div>
 </template>
 
 <script>
 export default {
   name: "Cart",
+  data() {
+    return {
+      amount: 0,
+      items: []
+    }
+  },
   methods: {
     buy() {
+      for (let i = 0; i in this.userCart; i++) {
+        this.items = this.userCart[i]
+        this.$store.dispatch('changeQuantity', this.items)
+      }
+
+
       this.$store.dispatch("buy")
-      console.log(this.userCart)
+      console.log(this.items)
     },
-    add(item){
-      this.$store.dispatch('add', item)
+    add(item) {
+      item.quantity++
+      this.$store.dispatch('add', item.quantity)
+
     },
-    minus(item){
-      this.$store.dispatch('minus', item)
+    minus(item) {
+      item.quantity--
+      this.$store.dispatch('add', item.quantity)
     }
   },
   computed: {
     userCart() {
       return this.$store.state.userCart
+    },
+    mounted() {
+
     }
   }
 }

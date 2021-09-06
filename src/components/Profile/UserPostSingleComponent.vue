@@ -1,8 +1,8 @@
 <template>
 <div>
-{{item}}
+{{item.name}}
   <button @click="deletePost">Delete</button>
-  <button>Edit</button>
+  <button @click="edit(item)">Edit</button>
 </div>
 </template>
 
@@ -13,6 +13,9 @@ export default {
   methods: {
     deletePost(){
       this.$store.dispatch('deletePost', this.item._id)
+    },
+    edit(item){
+      console.log(item)
     }
   }
 }

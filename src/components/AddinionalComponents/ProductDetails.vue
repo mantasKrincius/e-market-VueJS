@@ -3,7 +3,7 @@
     <div v-for="item in singlePost">
       {{ item }}
       <button @click="toCart(item)">Add to cart</button>
-      <input type="number" v-model="quantity"/>
+      <input v-model="quantity"/>
     </div>
     <h3>{{ $store.state.message }}</h3>
   </div>
@@ -20,11 +20,6 @@ export default {
     }
   },
   methods: {
-    // addToCard(item) {
-    //   this.$store.commit('quantity', this.quantity)
-    //   this.$store.dispatch('toCart', item)
-    //   this.$store.dispatch('changeQuantity', item)
-    // }
     toCart(item) {
       this.$store.commit('quantity', this.quantity)
       this.$store.dispatch('addToCart', {data: item, quantity: this.quantity})
