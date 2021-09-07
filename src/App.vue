@@ -12,7 +12,6 @@
         <router-link to="/profile">Profile</router-link>
         <Logout/>
       </div>
-
     </div>
     <router-view/>
   </div>
@@ -36,6 +35,12 @@ export default {
 </script>
 
 <style>
+body {
+  background-color: #dddfd4;
+
+}
+
+
 .d-flex {
   display: flex;
   justify-content: center;
@@ -47,6 +52,10 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 #nav {

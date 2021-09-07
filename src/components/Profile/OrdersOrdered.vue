@@ -1,6 +1,6 @@
 <template>
   <div>
-    My Orders:
+    <h3>My Orders: </h3>
     <div v-for="(item, index) in getUserOrder" :key="index">
       <div>Ordered date: {{ item.createdAt }}</div>
       <div>Total Price: {{ item.totalPrice }}</div>

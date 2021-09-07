@@ -1,6 +1,6 @@
 <template>
-  <div id="app">
-    <div id="nav">
+  <div class="toolbar">
+    <div>
       <div v-if="!isLoggin">
         <router-link to="/">Home</router-link> |
         <router-link to="/login">Login</router-link> |
@@ -9,6 +9,7 @@
       <div v-else class="d-flex">
         <router-link to="/">Home</router-link> |
         <router-link to="/profile">Profile</router-link>
+        <Logout/>
       </div>
 
     </div>
@@ -17,12 +18,28 @@
 </template>
 
 <script>
+import Logout from "./Logout";
 export default {
   name: "ToolBar",
-  props: ["isLoggin"]
+  components: {Logout},
+  props: ["isLoggin"],
+
+  computed: {
+    isLoggin(){
+      return this.$store.state.user.userStatus
+    }
+  },
 }
 </script>
 
 <style scoped>
+.d-flex {
+  display: flex;
+  justify-content: center;
+}
 
+.toolbar {
+  background-color: red;
+  
+}
 </style>

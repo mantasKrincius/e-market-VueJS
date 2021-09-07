@@ -82,7 +82,7 @@ export default new Vuex.Store({
             let data = await response.json();
             console.log(data);
         },
-        async login({commit, state}, payload) {
+        async login({commit, state, dispatch}, payload) {
             try {
                 let response = await fetch(`${state.url}/user/signIn`, {
                     method: "POST",
@@ -97,7 +97,7 @@ export default new Vuex.Store({
 
                 localStorage.setItem("userauth", token);
                 localStorage.setItem("shop-user", await JSON.stringify(await response.json()));
-                window.location.reload()
+                dispatch('getUserName')
 
             } catch (e) {
                 console.log(e);
@@ -115,7 +115,7 @@ export default new Vuex.Store({
                 state.user.name = "Login Please"
             }
         },
-        async logout({commit, state}, payload) {
+        async logout({commit, state, dispatch}, payload) {
             //need to check this solution later
             await fetch(`${state.url}/user/logOut`, {
                 method: "POST",
@@ -124,14 +124,14 @@ export default new Vuex.Store({
                     userauth: state.token,
                 },
             });
-            window.location.reload()
+            dispatch('getUserName')
             state.user.userStatus = false
             state.user.name = ""
             state.user.token = ""
             localStorage.removeItem("userauth");
             localStorage.removeItem("shop-user");
         },
-        async addPost({commit, state}, payload) {
+        async addPost({commit, state, dispatch}, payload) {
             const formData = new FormData();
             if (!payload.name && !payload.price && !payload.quantity) {
                 return state.message = "need to fill"
@@ -160,7 +160,7 @@ export default new Vuex.Store({
                 if (response.status !== 200) throw await response.json();
                 let data = await response.json();
                 console.log(data);
-                window.location.reload()
+                dispatch('getAllPosts')
 
             } catch (e) {
                 console.log(e);
@@ -186,7 +186,7 @@ export default new Vuex.Store({
             let data = await response.json();
             commit('userPosts', data)
         },
-        async deletePost({commit, state}, payload) {
+        async deletePost({commit, state, dispatch}, payload) {
             let body = {
                 id: payload
             };
@@ -198,7 +198,7 @@ export default new Vuex.Store({
                 },
                 body: JSON.stringify(body),
             });
-            location.reload();
+            dispatch('getUserPosts')
         },
         async buy({commit, state}, payload) {
             let body = {

@@ -1,17 +1,31 @@
-<template>
-  <div>
-    <div v-for="(item, index) in userCart" :key="index">
-      <h3>Name: {{ item.data.name }}</h3>
+<template class="d-flex">
+  <div class="cart">
+    <div v-if="userCart.length === 0">
+      <h2>Your cart is empty</h2>
+    </div>
+    <div v-else>
+      <h2>{{ $store.state.message }}</h2>
+      <div class="cart-options" v-for="(item, index) in userCart" :key="index" :item="item">
+        <div class="cart-title">
+          <h3>{{ item.data.name }}</h3>
+          <h5>Price: {{ item.data.price }}</h5>
+        </div>
+        <div class="cart-img">
+          <img :src="item.data.productImage"/>
+        </div>
+        <div class="cart-selectors">
+          <button @click="add(item)">+</button>
+          <h5>Quantity: {{ item.quantity }}</h5>
+          <button @click="minus(item)">-</button>
+          <button @click="remove(item)">Delete</button>
+        </div>
+      </div>
       <div>
-        <button @click="add(item)">+</button>
-        <button @click="minus(item)">-</button>
-        <div>Quantity: {{ item.quantity }}</div>
-        <button @click="remove(item)">Delete</button>
+        <h3>Total Price: {{ $store.state.totalPrice }} $</h3>
+        <button @click="buy">Buy</button>
       </div>
     </div>
-    <h2>{{ $store.state.message }}</h2>
-    <h3>Total Price: {{ $store.state.totalPrice }}</h3>
-    <button @click="buy">Buy</button>
+
   </div>
 </template>
 
@@ -62,5 +76,56 @@ export default {
 </script>
 
 <style scoped>
+h3 {
+  color: white;
+}
 
+h5 {
+  color: white
+}
+
+.cart {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #fae596;
+  max-width: 1300px;
+}
+
+.cart-title {
+  margin: 0 40px;
+}
+
+.cart-selectors {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 20px;
+}
+
+button {
+  margin: 0 10px;
+  padding: 2px 15px;
+}
+
+.cart-options {
+  margin: 10px 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #3fb0ac;
+}
+
+.cart-img {
+  display: flex;
+  align-items: center;
+  width: 100px;
+  height: 100px;
+}
+
+.cart-img img {
+  width: 100px;
+  height: 100px;
+}
 </style>

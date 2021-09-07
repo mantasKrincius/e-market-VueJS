@@ -2,8 +2,8 @@
   <div class="main-div">
     <div class="component">
       <h2>{{ item.name }}</h2>
-      <h6>{{item.userName}}</h6>
-      <div>
+      <h6>Added by: {{item.userName}}</h6>
+      <div class="home-img">
         <img @click="moreInfo" :src="item.productImage">
       </div>
       <h5>Price: {{ item.price }}</h5>
@@ -33,13 +33,18 @@ export default {
 .main-div {
   max-width: 1300px;
   display: flex;
+  color: white;
 }
 
 .component {
-
+  margin: 10px;
+  background-color: #173e43;
+  width: 300px;
 }
 
-img {
+.home-img img {
   width: 200px;
+  height: 250px;
 }
+
 </style>
