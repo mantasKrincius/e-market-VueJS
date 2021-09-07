@@ -3,7 +3,7 @@
     <div v-for="item in singlePost">
       {{ item }}
       <button @click="toCart(item)">Add to cart</button>
-      <input v-model="quantity"/>
+      <input type="number" v-model="quantity"/>
     </div>
     <h3>{{ $store.state.message }}</h3>
   </div>
@@ -16,13 +16,16 @@ export default {
   components: {},
   data() {
     return {
-      quantity: 0,
+      quantity: 1,
     }
   },
   methods: {
     toCart(item) {
-      this.$store.commit('quantity', this.quantity)
-      this.$store.dispatch('addToCart', {data: item, quantity: this.quantity})
+      let maxToPay = item.price * this.quantity
+        this.$store.commit('quantity', this.quantity)
+        this.$store.dispatch('addToCart', {data: item, quantity: this.quantity})
+        this.$store.commit('addByTotalPrice', maxToPay)
+      console.log(maxToPay)
     }
   },
   computed: {

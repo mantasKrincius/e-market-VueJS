@@ -15,7 +15,7 @@ export default new Vuex.Store({
         token: "",
         message: "",
         userQuantity: 0,
-        totalPay: 0,
+        totalPrice: 0,
         userOrders: []
     },
     mutations: {
@@ -39,27 +39,35 @@ export default new Vuex.Store({
         },
         add(state, payload) {
             state.userQuantity = payload
-            console.log("user " + state.userQuantity)
         },
         minus(state, payload) {
             state.userQuantity = payload
-            console.log("user " + state.userQuantity)
         },
         userOrders(state, payload) {
             state.userOrders = payload
+        },
+        addByTotalPrice(state, payload){
+            state.totalPrice = state.totalPrice + payload
         }
     },
 
     actions: {
         addToCart({commit, state}, payload) {
             console.log(payload)
-            commit('userCart', payload)
+            const item = state.userCart.filter(item => item.data._id === payload.data._id).length
+            if(item){
+               console.log("already there")
+            } else {
+                commit('userCart', payload)
+            }
         },
         add({commit, state}, payload) {
-            commit('add', payload)
+            state.totalPrice += payload.data.price
+            commit('add', payload.quantity)
         },
         minus({commit, state}, payload) {
-            commit('minus', payload)
+            state.totalPrice -= payload.data.price
+            commit('minus', payload.quantity)
         },
         async register({commit, state}, payload) {
             let response = await fetch(`${state.url}/user/signUp`, {
@@ -133,7 +141,7 @@ export default new Vuex.Store({
                 formData.append("productImage", payload.productImage);
                 //paziureti
             }
-
+            formData.append('userName', state.user.userName)
             formData.append("name", payload.name);
             formData.append("price", payload.price);
             formData.append("description", payload.description);
@@ -195,7 +203,8 @@ export default new Vuex.Store({
         async buy({commit, state}, payload) {
             let body = {
                 userId: state.user._id,
-                products: state.userCart
+                products: state.userCart,
+                totalPrice: state.totalPrice
             }
 
             state.message = "Thank You"

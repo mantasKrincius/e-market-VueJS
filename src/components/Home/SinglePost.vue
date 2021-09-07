@@ -2,6 +2,7 @@
   <div class="main-div">
     <div class="component">
       <h2>{{ item.name }}</h2>
+      <h6>{{item.userName}}</h6>
       <div>
         <img @click="moreInfo" :src="item.productImage">
       </div>
@@ -9,7 +10,6 @@
       <h5>Quantity: {{ item.quantity }}</h5>
       <h6>{{item.createdAt}}</h6>
     </div>
-
   </div>
 </template>
 

@@ -1,8 +1,15 @@
 <template>
   <div>
-  My Orders:
+    My Orders:
     <div v-for="(item, index) in getUserOrder" :key="index">
-      {{item}}
+      <div>Ordered date: {{ item.createdAt }}</div>
+      <div>Total Price: {{ item.totalPrice }}</div>
+      <div v-for="(product,index) in item.products" :key="index">
+        {{ product.data.name }}
+        Quantity: {{ product.data.quantity }}
+        Price: {{ product.data.price }}
+        Seller Name: {{ product.data.userName }}
+      </div>
     </div>
 
   </div>
@@ -12,7 +19,7 @@
 export default {
   name: "OrdersOrdered",
   computed: {
-    getUserOrder(){
+    getUserOrder() {
       return this.$store.state.userOrders
     },
   },
