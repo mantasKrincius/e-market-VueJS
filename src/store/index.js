@@ -16,7 +16,8 @@ export default new Vuex.Store({
         message: "",
         userQuantity: 0,
         totalPrice: 0,
-        userOrders: []
+        userOrders: [],
+        favourites: []
     },
     mutations: {
         userInfo(state, payload) {
@@ -48,7 +49,8 @@ export default new Vuex.Store({
         },
         addByTotalPrice(state, payload){
             state.totalPrice = state.totalPrice + payload
-        }
+        },
+
     },
 
     actions: {
@@ -82,6 +84,7 @@ export default new Vuex.Store({
             let data = await response.json();
             console.log(data);
         },
+
         async login({commit, state, dispatch}, payload) {
             try {
                 let response = await fetch(`${state.url}/user/signIn`, {
@@ -109,10 +112,8 @@ export default new Vuex.Store({
                 let user = JSON.parse(localStorage.getItem("shop-user"))
                 let token = localStorage.getItem("userauth");
                 commit('userInfo', user)
-                state.token = token
 
-            } else {
-                state.user.name = "Login Please"
+                state.token = token
             }
         },
         async logout({commit, state, dispatch}, payload) {
@@ -273,7 +274,7 @@ export default new Vuex.Store({
             let data = await response.json();
             console.log(data);
         },
-        async editBE({commit, state}, payload) {
+        async editBE({commit, state, dispatch}, payload) {
             let id = payload._id
             let description = payload.description
             let name = payload.name
@@ -300,6 +301,7 @@ export default new Vuex.Store({
                 });
 
                 if (response.status !== 200) throw await response.json();
+                dispatch('getAllPosts')
             } catch (e) {
                 console.log(e);
             }

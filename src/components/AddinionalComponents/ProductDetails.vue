@@ -1,4 +1,4 @@
-<template>
+<template class="check">
   <div>
     <div v-for="item in singlePost" class="product-detail">
 
@@ -29,7 +29,7 @@
           <div class="product-detail-controllers">
             <div>
               <button @click="toCart(item)">Add to cart</button>
-              <button>Add favourite</button>
+              <button @click="toFavourites(item)">Add favourite</button>
             </div>
             <input type="number" v-model="quantity"/>
           </div>
@@ -55,7 +55,8 @@ export default {
   data() {
     return {
       quantity: 1,
-      message: ""
+      message: "",
+      favourites: 0,
     }
   },
   methods: {
@@ -69,7 +70,9 @@ export default {
         this.$store.commit('addByTotalPrice', maxToPay)
         console.log(maxToPay)
       }
-
+    },
+    toFavourites(item){
+      console.log(this.$store.state.favourites)
     }
   },
   computed: {

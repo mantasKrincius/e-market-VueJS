@@ -51,7 +51,6 @@ export default {
 
 <style>
 body {
-  background-color: #f1f1f1;
   margin: 0;
   padding: 0;
 }

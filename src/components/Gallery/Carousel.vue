@@ -25,7 +25,7 @@ export default {
 .carousel {
   position: relative;
   width: 600px;
-  height: 350px;
+  height: 450px;
   overflow: hidden;
 }
 
