@@ -29,7 +29,7 @@ export default {
         price: 0,
         description: "",
         quantity: 0,
-        productImage: ""
+        productImage: "",
       }
     }
   },
@@ -37,10 +37,11 @@ export default {
     addPost() {
       this.$store.dispatch('addPost', this.product)
       console.log(this.product.productImage)
+      console.log(this.product.productImage2)
     },
     processValue(event){
       this.product.productImage = event.target.files[0]
-    }
+    },
   }
 }
 </script>

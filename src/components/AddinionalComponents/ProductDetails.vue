@@ -1,21 +1,40 @@
 <template>
-  <div class="product-detail">
+  <div>
     <div v-for="item in singlePost" class="product-detail">
-      <div class="product-detail-img">
-        <img :src="item.productImage"/>
-      </div>
+
       <div>
-        <h2>{{ item.name }}</h2>
-        <h6>Add by: {{ item.userName }}</h6>
-        <h6>Created: {{ item.createdAt }}</h6>
-        <div class="product-detail-description">
+        <div class="product-detail-top">
+          <h2>{{ item.name }}</h2>
+          <h2> Price: {{ item.price }}</h2>
+        </div>
+        <div>
+          <CarouselComponent :item="item"/>
           <p>Description: {{ item.description }} </p>
+          <h6>AD ID: {{ item._id }}</h6>
         </div>
-        <h4>Quantity: {{ item.quantity }}</h4>
-        <div class="product-detail-controllers">
-          <button @click="toCart(item)">Add to cart</button>
-          <input type="number" v-model="quantity"/>
+      </div>
+
+      <div>
+        <div class="product-detail-user-bar">
+          <div class="product-detail-user-bar-name">
+            <h6>Add by: {{ item.userName }}</h6>
+          </div>
+          <div>
+            <h6>Created: {{ item.createdAt }}</h6>
+            <hr/>
+          </div>
+          <div>
+            <h4>Quantity: {{ item.quantity }}</h4>
+          </div>
+          <div class="product-detail-controllers">
+            <div>
+              <button @click="toCart(item)">Add to cart</button>
+              <button>Add favourite</button>
+            </div>
+            <input type="number" v-model="quantity"/>
+          </div>
         </div>
+
       </div>
 
     </div>
@@ -28,9 +47,11 @@
 
 <script>
 
+import CarouselComponent from "../Gallery/CarouselComponent";
+
 export default {
   name: "ProductDetails",
-  components: {},
+  components: {CarouselComponent},
   data() {
     return {
       quantity: 1,
@@ -60,32 +81,28 @@ export default {
 </script>
 
 <style scoped>
+
+.product-detail-user-bar-name {
+  background-color: #3c3241;
+  color: #fff;
+}
+
 .product-detail {
   display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  background-color: #fae596;
-  padding: 10px;
+  justify-content: space-evenly;
 }
 
-.product-detail-description {
-  max-width: 300px;
-  padding: 30px;
-}
-
-.product-detail-description p {
-  display: flex;
-}
-
-.product-detail-controllers {
+.product-detail-user-bar {
+  margin: 0 10px;
+  width: 400px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 30px;
+  border: 1px solid gray;
 }
 
-.product-detail-img img {
-  max-width: 100%;
-  max-height: 700px;
+.product-detail-top {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1200px;
 }
 </style>

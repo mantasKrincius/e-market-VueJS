@@ -1,14 +1,13 @@
 <template>
   <div class="main-div">
-    <div class="component">
-      <h2>{{ item.name }}</h2>
-      <h6>Added by: {{item.userName}}</h6>
+    <div class="component" @click="moreInfo">
       <div class="home-img">
-        <img @click="moreInfo" :src="item.productImage">
+        <img  :src="item.productImage">
       </div>
-      <h5>Price: {{ item.price }}</h5>
-      <h5>Quantity: {{ item.quantity }}</h5>
-      <h6>{{item.createdAt}}</h6>
+      <div class="component-info">
+        <h5>{{item.name}}</h5>
+        <h5 :style="{color:'#52a744'}">£ {{ item.price }}</h5>
+      </div>
     </div>
   </div>
 </template>
@@ -23,28 +22,47 @@ export default {
       this.$store.dispatch('moreInfo', this.item)
     },
   }
-  // mounted() {
-  //   console.log(this.item)
-  // }
 }
 </script>
 
 <style scoped>
-.main-div {
-  max-width: 1300px;
+
+.component-info {
   display: flex;
-  color: white;
+  flex-direction: column;
+  text-align: left;
+  font-size: 1.4rem;
+  padding: 4px;
+}
+
+h5 {
+  font-weight: 400;
+  padding: 0;
+  margin: 0;
+}
+
+.main-div {
+  /*max-width: 1300px;*/
+  display: flex;
+
+  color: black;
 }
 
 .component {
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
   margin: 10px;
-  background-color: #173e43;
-  width: 300px;
+  background-color: #fff;
+  width: 100%;
+  cursor: pointer;
+  box-shadow: 1px 1px 1px grey;
 }
 
 .home-img img {
-  width: 200px;
-  height: 250px;
+ width: 250px;
+  height: 200px;
+
 }
 
 </style>

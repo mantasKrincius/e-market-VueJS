@@ -1,27 +1,42 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <div v-if="!isLoggin">
-        <router-link to="/">Home</router-link> |
-        <router-link to="/login">Login</router-link> |
-        <router-link to="/register">Register</router-link>|
+    <div id="nav" class="top-nav">
+      <div class="top-nav-logo">
+        <router-link to="/">
+          <img :src="require('./assets/gumtree_logo.png')"/>
+        </router-link>
       </div>
-      <div v-else class="d-flex">
-        <router-link to="/">Home</router-link> |
-        <router-link to="/user/cart">Cart</router-link> |
-        <router-link to="/profile">Profile</router-link>
-        <Logout/>
+      <div v-if="!isLoggin" class="top-nav-menu">
+        <router-link to="/login">Login</router-link>
+        /
+        <router-link to="/register">Register</router-link>
+
+      </div>
+      <div v-else class="d-flex top-nav-menu top-nav-logged">
+        <div>Hello, {{ $store.state.user.userName }}</div>
+        <div>
+          <router-link to="/profile">Profile</router-link>
+        </div>
+        <div>
+          <router-link to="/user/cart">Cart</router-link>
+        </div>
+        <div>
+          <Logout/>
+        </div>
       </div>
     </div>
+    <Hero/>
     <router-view/>
   </div>
 </template>
 <script>
 import Logout from "./components/AddinionalComponents/Logout";
+import Hero from "./components/Hero/Hero";
+
 export default {
-  components: {Logout},
+  components: {Hero, Logout},
   computed: {
-    isLoggin(){
+    isLoggin() {
       return this.$store.state.user.userStatus
     }
   },
@@ -36,10 +51,30 @@ export default {
 
 <style>
 body {
-  background-color: #dddfd4;
-
+  background-color: #f1f1f1;
+  margin: 0;
+  padding: 0;
 }
 
+.top-nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #3c3241;
+  width: 100%;
+}
+
+.top-nav-menu {
+  color: #fff;
+}
+
+.top-nav-logged div {
+  padding: 0 5px;
+}
+
+.top-nav-logo img {
+  height: 60px;
+}
 
 .d-flex {
   display: flex;
@@ -48,26 +83,19 @@ body {
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  font-size: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-#nav {
-  padding: 30px;
-}
-
 #nav a {
-  font-weight: bold;
-  color: #2c3e50;
+  color: #fff;
 }
 
 #nav a.router-link-exact-active {
-  color: #42b983;
+  color: #fff;
 }
 </style>

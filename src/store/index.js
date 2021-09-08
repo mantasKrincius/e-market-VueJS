@@ -141,6 +141,8 @@ export default new Vuex.Store({
                 formData.append("productImage", payload.productImage);
                 //paziureti
             }
+
+
             formData.append('userName', state.user.userName)
             formData.append("name", payload.name);
             formData.append("price", payload.price);

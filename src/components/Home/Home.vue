@@ -28,6 +28,5 @@ export default {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  background-color: #fae596;
 }
 </style>
