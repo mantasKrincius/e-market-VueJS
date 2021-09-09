@@ -1,19 +1,23 @@
-<template class="check">
+<template>
   <div>
     <div v-for="item in singlePost" class="product-detail">
 
       <div>
         <div class="product-detail-top">
           <h2>{{ item.name }}</h2>
-          <h2> Price: {{ item.price }}</h2>
+          <h2 :style="{color:'#52a744'}">£ {{ item.price }}</h2>
         </div>
         <div>
           <CarouselComponent :item="item"/>
-          <p>Description: {{ item.description }} </p>
+          <h3>Description:</h3>
+          <p> {{ item.description }} </p>
           <h6>AD ID: {{ item._id }}</h6>
         </div>
       </div>
-
+      <span class="stop" v-if="!isLoggin">
+      <img id="pop-up" :src="require('../../assets/policeLine.png')"/>
+       <h2>Please Login</h2>
+      </span>
       <div>
         <div class="product-detail-user-bar">
           <div class="product-detail-user-bar-name">
@@ -34,7 +38,6 @@
             <input type="number" v-model="quantity"/>
           </div>
         </div>
-
       </div>
 
     </div>
@@ -61,7 +64,9 @@ export default {
   },
   methods: {
     toCart(item) {
-      if (this.quantity > item.quantity) {
+      if (item.userName === this.$store.state.user.userName) {
+        this.message = "This is your own item"
+      } else if (this.quantity > item.quantity && this.quantity < 0) {
         this.message = "No more"
       } else {
         let maxToPay = item.price * this.quantity
@@ -71,7 +76,7 @@ export default {
         console.log(maxToPay)
       }
     },
-    toFavourites(item){
+    toFavourites(item) {
       console.log(this.$store.state.favourites)
     }
   },
@@ -79,11 +84,63 @@ export default {
     singlePost() {
       return this.$store.state.singlePost
     },
+    isLoggin() {
+      return this.$store.state.user.userStatus
+    }
   },
 }
 </script>
 
 <style scoped>
+#pop-up {
+  top: -350px;
+  animation: drop 1s ease forwards;
+}
+
+@keyframes drop {
+  0% {
+    opacity: 0
+  }
+  70% {
+    transform: translateY(700px)
+  }
+  100% {
+    transform: translateY(650px);
+    opacity: 1;
+  }
+}
+
+button {
+  background-color: #cc4e5c;
+  padding: 10px;
+  margin: 10px;
+}
+
+.stop img {
+  position: absolute;
+  width: 100%;
+  top: 350px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.stop h2 {
+  position: absolute;
+  top: 400px;
+  left: 0;
+  right: 0;
+
+}
+
+
+.product-detail-controllers {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 
 .product-detail-user-bar-name {
   background-color: #3c3241;
@@ -96,7 +153,7 @@ export default {
 }
 
 .product-detail-user-bar {
-  margin: 0 10px;
+  margin: 10px 10px;
   width: 400px;
   display: flex;
   flex-direction: column;

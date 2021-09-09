@@ -1,5 +1,6 @@
 <template>
   <div class="d-flex">
+    {{ message }}
     <form>
       <label>Product</label>
       <input v-model="product.name">
@@ -15,7 +16,7 @@
         <button @click.prevent="addPost">Post</button>
       </div>
     </form>
-    {{$store.state.message}}
+
   </div>
 </template>
 
@@ -24,6 +25,7 @@ export default {
   name: "CreatePost",
   data() {
     return {
+      message: "",
       product: {
         name: "",
         price: 0,
@@ -35,11 +37,17 @@ export default {
   },
   methods: {
     addPost() {
-      this.$store.dispatch('addPost', this.product)
+      if (this.product.name.length >= 10 && this.product.name.length <= 100 && this.product.description.length >= 30 && this.product.description.length <= 100) {
+        this.$store.dispatch('addPost', this.product)
+        this.message = "Thank you, post uploaded"
+      } else {
+        this.message = "Title must be: min 10/max 100 characters, description min 30/max 100 characters"
+      }
+
       console.log(this.product.productImage)
       console.log(this.product.productImage2)
     },
-    processValue(event){
+    processValue(event) {
       this.product.productImage = event.target.files[0]
     },
   }

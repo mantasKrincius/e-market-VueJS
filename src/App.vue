@@ -7,18 +7,21 @@
         </router-link>
       </div>
       <div v-if="!isLoggin" class="top-nav-menu">
-        <router-link to="/login">Login</router-link>
+        <router-link to="/login"><i class="fas fa-sign-in-alt"></i> Login</router-link>
         /
-        <router-link to="/register">Register</router-link>
+        <router-link to="/register"><i class="fas fa-user-plus"></i>Register</router-link>
 
       </div>
       <div v-else class="d-flex top-nav-menu top-nav-logged">
         <div>Hello, {{ $store.state.user.userName }}</div>
         <div>
-          <router-link to="/profile">Profile</router-link>
+          <router-link to="/profile"><i class="far fa-user-circle"></i></router-link>
         </div>
         <div>
-          <router-link to="/user/cart">Cart</router-link>
+          <router-link to="/user/cart"><i class="fas fa-shopping-cart"></i></router-link>
+        </div>
+        <div>
+          <router-link to="/createPost">POST</router-link>
         </div>
         <div>
           <Logout/>
@@ -53,6 +56,12 @@ export default {
 body {
   margin: 0;
   padding: 0;
+}
+
+.container {
+  max-width: 1250px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 .top-nav {

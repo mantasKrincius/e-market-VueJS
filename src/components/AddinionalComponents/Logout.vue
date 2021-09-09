@@ -1,6 +1,6 @@
 <template>
 <div>
-  <button @click="logout">Logout</button>
+  <i class="fas fa-door-open" @click="logout"></i>
 </div>
 </template>
 
@@ -17,5 +17,7 @@ export default {
 </script>
 
 <style scoped>
-
+i {
+  cursor: pointer;
+}
 </style>

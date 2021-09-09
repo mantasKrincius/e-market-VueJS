@@ -1,14 +1,17 @@
 <template>
   <div class="user-post">
-    EDIT PRODUCT: {{ item.name }}
-    <button @click="deletePost">Delete</button>
-    <button @click="edit(item)">Edit</button>
-    <div v-if="show" class="user-post-edit">
-      <input placeholder="NAME" v-model="itemEdit.name">
-      <input placeholder="PRICE" v-model="itemEdit.price">
-      <input placeholder="QUANTITY" v-model="itemEdit.quantity">
-      <input placeholder="DESCRIPTION" v-model="itemEdit.description">
-      <button @click="editBE(item)">Change Item</button>
+
+    <div>
+      <h3>{{ item.name }}</h3>
+      <button @click="deletePost">Delete</button>
+      <button @click="edit(item)">Edit</button>
+      <div v-if="show" class="user-post-edit">
+        <input placeholder="NAME" v-model="itemEdit.name">
+        <input placeholder="PRICE" v-model="itemEdit.price">
+        <input placeholder="QUANTITY" v-model="itemEdit.quantity">
+        <input placeholder="DESCRIPTION" v-model="itemEdit.description">
+        <button @click="editBE(item)">Change Item</button>
+      </div>
     </div>
   </div>
 </template>
@@ -47,11 +50,7 @@ export default {
 
 <style scoped>
 .user-post {
-  background-color: red ;
-  margin: 30px;
-}
-
-.user-post-edit {
-  margin: 30px;
+  background-color: red;
+  margin: 5px;
 }
 </style>

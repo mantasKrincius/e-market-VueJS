@@ -21,7 +21,7 @@
         </div>
       </div>
       <div>
-        <h3>Total Price: {{ $store.state.totalPrice }} $</h3>
+        <h3>Total Price: {{ $store.state.totalPrice }}</h3>
         <button @click="buy">Buy</button>
       </div>
     </div>
@@ -45,20 +45,16 @@ export default {
         this.$store.dispatch('changeQuantity', this.items)
       }
       this.$store.dispatch("buy")
-      console.log(this.items)
     },
     remove(item) {
-      //find by index and delete that index
       const itemRemove = this.userCart.findIndex(i => i.data._id === item.data._id)
       this.userCart.splice(itemRemove, 1)
     },
     add(item) {
-      //increase quantity and send it to store
       item.quantity++
       this.$store.dispatch('add', item)
     },
     minus(item) {
-      //decrease quantity and send it to store
       item.quantity--
       this.$store.dispatch('minus', item)
     }

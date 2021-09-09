@@ -6,6 +6,7 @@ import LoginPage from "../views/LoginPage";
 import ProfilePage from "../views/ProfilePage";
 import ProductDetails from "../components/AddinionalComponents/ProductDetails";
 import CartPage from "../views/CartPage";
+import CreatePostPage from "../views/CreatePostPage";
 
 Vue.use(VueRouter)
 
@@ -29,6 +30,11 @@ const routes = [
         path: '/profile',
         name: 'Profile',
         component: ProfilePage
+    },
+    {
+        path: '/createPost',
+        name: 'Create Post',
+        component: CreatePostPage
     },
     {
         path: '/products/:id',

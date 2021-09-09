@@ -2,8 +2,8 @@
   <div class="carousel">
     <slot></slot>
 
-    <button @click="next" class="next">Next</button>
-    <button @click="prev" class="prev">Prev</button>
+    <button @click="next" class="next"><i class="fas fa-arrow-right"></i></button>
+    <button @click="prev" class="prev"><i class="fas fa-arrow-left"></i></button>
   </div>
 </template>
 

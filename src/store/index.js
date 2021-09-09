@@ -17,7 +17,6 @@ export default new Vuex.Store({
         userQuantity: 0,
         totalPrice: 0,
         userOrders: [],
-        favourites: []
     },
     mutations: {
         userInfo(state, payload) {
@@ -49,8 +48,7 @@ export default new Vuex.Store({
         },
         addByTotalPrice(state, payload){
             state.totalPrice = state.totalPrice + payload
-        },
-
+        }
     },
 
     actions: {
@@ -101,6 +99,8 @@ export default new Vuex.Store({
                 localStorage.setItem("userauth", token);
                 localStorage.setItem("shop-user", await JSON.stringify(await response.json()));
                 dispatch('getUserName')
+                dispatch('getUserPosts')
+                dispatch('getUserOrders')
 
             } catch (e) {
                 console.log(e);
@@ -112,7 +112,7 @@ export default new Vuex.Store({
                 let user = JSON.parse(localStorage.getItem("shop-user"))
                 let token = localStorage.getItem("userauth");
                 commit('userInfo', user)
-
+                // commit('favourites', favourites)
                 state.token = token
             }
         },
@@ -164,6 +164,8 @@ export default new Vuex.Store({
                 let data = await response.json();
                 console.log(data);
                 dispatch('getAllPosts')
+                dispatch('getUserOrders')
+                dispatch('getUserPosts')
 
             } catch (e) {
                 console.log(e);
@@ -202,6 +204,7 @@ export default new Vuex.Store({
                 body: JSON.stringify(body),
             });
             dispatch('getUserPosts')
+            dispatch('getAllPosts')
         },
         async buy({commit, state}, payload) {
             let body = {
@@ -245,13 +248,14 @@ export default new Vuex.Store({
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    //need to sort it out
                     userauth: state.token,
                 },
                 body: JSON.stringify(body),
             });
 
-            let car = await response.json();
-            commit('moreInfo', car)
+            let product = await response.json();
+            commit('moreInfo', product)
         },
         async changeQuantity({commit, state}, payload) {
             let amount = payload.data.quantity - payload.quantity

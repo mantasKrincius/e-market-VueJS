@@ -8,7 +8,7 @@
 
 <script>
 
-import UserPostSingleComponent from "./UserPostSingleComponent";
+import UserPostSingleComponent from "./EditUserPosts";
 export default {
   name: "UserPosts",
   components: {UserPostSingleComponent},

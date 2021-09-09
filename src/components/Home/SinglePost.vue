@@ -60,7 +60,7 @@ h5 {
 }
 
 .home-img img {
- width: 250px;
+  width: 250px;
   height: 200px;
 
 }
