@@ -24,7 +24,8 @@ export default {
   data() {
     return {
       slides: [this.item.productImage, "https://i.ebayimg.com/00/s/ODAwWDYwMA==/z/H1MAAOSwgjVgMVrd/$_86.PNG"],
-      visibleSlide: 0
+      visibleSlide: 0,
+      pic: ""
     }
   },
   methods: {
@@ -43,7 +44,9 @@ export default {
       }
     },
   },
+  beforeUpdate() {
 
+  }
 }
 </script>
 

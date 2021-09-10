@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div v-for="(item, index) in userPosts" :key="index">
+  <div class="d-flex" >
+    <div v-for="(item, index) in userPosts" :key="index" >
     <UserPostSingleComponent :item="item"/>
     </div>
   </div>
@@ -21,5 +21,7 @@ export default {
 </script>
 
 <style scoped>
-
+.d-flex {
+  display: flex;
+}
 </style>

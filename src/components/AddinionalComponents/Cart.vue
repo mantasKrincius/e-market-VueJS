@@ -1,6 +1,6 @@
 <template class="d-flex">
   <div class="cart">
-    <div v-if="userCart.length === 0">
+    <div v-if="userCart.length === 0" class="message">
       <h2>Your cart is empty</h2>
     </div>
     <div v-else>
@@ -60,32 +60,23 @@ export default {
     }
   },
   computed: {
-    totalPrice() {
-
-    },
-    //targeting userCart for v-for
     userCart() {
       return this.$store.state.userCart
     },
-  }
+  },
 }
 </script>
 
 <style scoped>
-h3 {
-  color: white;
-}
 
-h5 {
-  color: white
-}
 
 .cart {
+  margin: 5px 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #fae596;
+  background-color: #f1f1f1;
   max-width: 1300px;
 }
 
@@ -110,7 +101,7 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #3fb0ac;
+  background-color: #fff;
 }
 
 .cart-img {
@@ -123,5 +114,9 @@ button {
 .cart-img img {
   width: 100px;
   height: 100px;
+}
+
+.message {
+  padding: 10px;
 }
 </style>

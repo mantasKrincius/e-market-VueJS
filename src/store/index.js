@@ -17,6 +17,7 @@ export default new Vuex.Store({
         userQuantity: 0,
         totalPrice: 0,
         userOrders: [],
+        favourite: "green"
     },
     mutations: {
         userInfo(state, payload) {
@@ -46,8 +47,14 @@ export default new Vuex.Store({
         userOrders(state, payload) {
             state.userOrders = payload
         },
-        addByTotalPrice(state, payload){
+        addByTotalPrice(state, payload) {
             state.totalPrice = state.totalPrice + payload
+        },
+        toFavourite(state, payload) {
+            state.favourite = payload
+        },
+        changeColor(state, payload){
+            state.favourite = payload
         }
     },
 
@@ -55,8 +62,8 @@ export default new Vuex.Store({
         addToCart({commit, state}, payload) {
             console.log(payload)
             const item = state.userCart.filter(item => item.data._id === payload.data._id).length
-            if(item){
-               console.log("already there")
+            if (item) {
+                console.log("already there")
             } else {
                 commit('userCart', payload)
             }
@@ -82,7 +89,6 @@ export default new Vuex.Store({
             let data = await response.json();
             console.log(data);
         },
-
         async login({commit, state, dispatch}, payload) {
             try {
                 let response = await fetch(`${state.url}/user/signIn`, {
@@ -107,7 +113,7 @@ export default new Vuex.Store({
                 state.message = e.message
             }
         },
-        getUserName({commit, state}, payload) {
+        getUserName({commit, state}) {
             if (JSON.parse(localStorage.getItem("shop-user"))) {
                 let user = JSON.parse(localStorage.getItem("shop-user"))
                 let token = localStorage.getItem("userauth");
@@ -116,7 +122,7 @@ export default new Vuex.Store({
                 state.token = token
             }
         },
-        async logout({commit, state, dispatch}, payload) {
+        async logout({state, dispatch}) {
             //need to check this solution later
             await fetch(`${state.url}/user/logOut`, {
                 method: "POST",
@@ -171,7 +177,7 @@ export default new Vuex.Store({
                 console.log(e);
             }
         },
-        async getAllPosts({commit, state}, payload) {
+        async getAllPosts({commit, state}) {
             let response = await fetch(`${state.url}/products`, {
                 method: 'GET'
             })
@@ -180,7 +186,7 @@ export default new Vuex.Store({
             commit('allProducts', products)
 
         },
-        async getUserPosts({commit, state}, payload) {
+        async getUserPosts({commit, state}) {
             let response = await fetch(`${state.url}/products/myPosts`, {
                 method: "GET",
                 headers: {
@@ -206,7 +212,7 @@ export default new Vuex.Store({
             dispatch('getUserPosts')
             dispatch('getAllPosts')
         },
-        async buy({commit, state}, payload) {
+        async buy({commit, state}) {
             let body = {
                 userId: state.user._id,
                 products: state.userCart,
@@ -310,7 +316,7 @@ export default new Vuex.Store({
                 console.log(e);
             }
         },
-        async getUserOrders({commit, state}, payload) {
+        async getUserOrders({commit, state}) {
             let response = await fetch(`${state.url}/products/orders`, {
                 method: "GET",
                 headers: {
@@ -322,6 +328,8 @@ export default new Vuex.Store({
             console.log(data)
             commit('userOrders', data)
         },
+
+
     },
 
 })

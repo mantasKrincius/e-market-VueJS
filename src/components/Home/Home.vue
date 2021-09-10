@@ -8,23 +8,27 @@
 
 <script>
 import SinglePost from "./SinglePost";
+
 export default {
   name: "Home",
   components: {SinglePost},
   data() {
-    return {}
-  },
-  computed: {
-    allPosts(){
-      return this.$store.state.allPosts
+    return {
+      color: ""
     }
   },
-  beforeCreate () {
-    document.querySelector('body').setAttribute('style', 'background:#f1f1f1')
+  computed: {
+    allPosts() {
+      return this.$store.state.allPosts
+    },
   },
-  beforeDestroy () {
+  beforeCreate() {
+    document.querySelector('body').setAttribute('style', 'background:#f1f1f1')
+
+  },
+  beforeDestroy() {
     document.querySelector('body').setAttribute('style', 'background:#fff')
-  }
+  },
 }
 </script>
 

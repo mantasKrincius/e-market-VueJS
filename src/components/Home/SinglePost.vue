@@ -1,12 +1,13 @@
 <template>
   <div class="main-div">
-    <div class="component" @click="moreInfo">
+    <div class="component">
       <div class="home-img">
-        <img  :src="item.productImage">
+        <img :src="item.productImage" @click="moreInfo">
       </div>
       <div class="component-info">
-        <h5>{{item.name}}</h5>
+        <h5>{{ item.name }}</h5>
         <h5 :style="{color:'#52a744'}">£ {{ item.price }}</h5>
+
       </div>
     </div>
   </div>
@@ -16,12 +17,22 @@
 export default {
   name: "SinglePost",
   props: ['item'],
+  data() {
+    return {}
+  },
   methods: {
     moreInfo() {
       this.$router.push(`/products/${this.item._id}`)
       this.$store.dispatch('moreInfo', this.item)
-    },
-  }
+    }
+  },
+
+
+  // if (this.item._id === "613b1765fab6690be09f6896") {
+  //   return "red"
+  // } else {
+  //   return "white"
+  // }
 }
 </script>
 
@@ -42,9 +53,7 @@ h5 {
 }
 
 .main-div {
-  /*max-width: 1300px;*/
   display: flex;
-
   color: black;
 }
 

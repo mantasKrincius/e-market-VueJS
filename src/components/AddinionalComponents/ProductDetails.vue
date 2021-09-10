@@ -20,7 +20,7 @@
       </span>
       <div>
         <div class="product-detail-user-bar">
-          <div class="product-detail-user-bar-name">
+          <div class="product-detail-user-bar-name" :style="{backgroundColor: color}">
             <h6>Add by: {{ item.userName }}</h6>
           </div>
           <div>
@@ -33,13 +33,12 @@
           <div class="product-detail-controllers">
             <div>
               <button @click="toCart(item)">Add to cart</button>
-              <button @click="toFavourites(item)">Add favourite</button>
+              <button @click="toFavourites(item)">Add to Favourite</button>
             </div>
             <input type="number" v-model="quantity"/>
           </div>
         </div>
       </div>
-
     </div>
     <div class="message">
       <h3>{{ message }}</h3>
@@ -50,6 +49,7 @@
 
 <script>
 
+
 import CarouselComponent from "../Gallery/CarouselComponent";
 
 export default {
@@ -59,7 +59,9 @@ export default {
     return {
       quantity: 1,
       message: "",
-      favourites: 0,
+      color: "",
+      id: null,
+
     }
   },
   methods: {
@@ -77,8 +79,25 @@ export default {
       }
     },
     toFavourites(item) {
-      console.log(this.$store.state.favourites)
-    }
+      let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
+      this.id = item._id
+
+      let id = item._id,
+          index = favorites.indexOf(id);
+
+      if (!id) return;
+
+      if (index === -1) {
+        favorites.push(id);
+        this.color = "green"
+      } else {
+        favorites.splice(index, 1);
+        this.color = ""
+      }
+
+      localStorage.setItem('favorites', JSON.stringify(favorites));
+    },
   },
   computed: {
     singlePost() {
@@ -86,8 +105,28 @@ export default {
     },
     isLoggin() {
       return this.$store.state.user.userStatus
+    },
+    favourite(){
+      return this.$store.state.favourite
+    },
+    check(){
+    //   let item = item._id
+    //   console.log(item)
+
+
+      // this.color = favorites.indexOf(id) === -1 ? "" : "green"
+    // const checking = favorites.indexOf(id) === -1 ? this.color = "white" : this.color = "green"
+    // console.log(checking)
+
     }
   },
+  beforeUpdate() {
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || []
+    for(let i in this.singlePost){
+      let id = this.singlePost[i]
+      this.color = favorites.indexOf(id._id) === -1 ? "" : "green"
+    }
+  }
 }
 </script>
 

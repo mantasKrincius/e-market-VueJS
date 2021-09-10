@@ -57,6 +57,7 @@ export default {
 <style scoped>
 .d-flex {
   display: flex;
+  margin: 30px;
 }
 
 form {
@@ -64,7 +65,7 @@ form {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #173e43;
+  background-color: #3c3241;
   color: white;
   padding: 50px;
 }
