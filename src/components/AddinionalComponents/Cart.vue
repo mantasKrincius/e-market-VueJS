@@ -35,7 +35,7 @@ export default {
   data() {
     return {
       amount: 0,
-      totalPay: 0
+      totalPay: 0,
     }
   },
   methods: {

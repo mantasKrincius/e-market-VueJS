@@ -26,13 +26,6 @@ export default {
       this.$store.dispatch('moreInfo', this.item)
     }
   },
-
-
-  // if (this.item._id === "613b1765fab6690be09f6896") {
-  //   return "red"
-  // } else {
-  //   return "white"
-  // }
 }
 </script>
 

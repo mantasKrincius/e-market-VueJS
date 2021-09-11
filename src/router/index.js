@@ -27,7 +27,7 @@ const routes = [
         component: LoginPage
     },
     {
-        path: '/profile',
+        path: '/profile/:userName',
         name: 'Profile',
         component: ProfilePage
     },
@@ -42,7 +42,7 @@ const routes = [
         component: ProductDetails
     },
     {
-        path: '/user/cart',
+        path: '/:userName/cart',
         name: 'User cart',
         component: CartPage
     },

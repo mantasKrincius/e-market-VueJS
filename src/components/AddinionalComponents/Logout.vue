@@ -19,5 +19,7 @@ export default {
 <style scoped>
 i {
   cursor: pointer;
+  font-size: 1.3rem;
+  padding: 0 10px;
 }
 </style>

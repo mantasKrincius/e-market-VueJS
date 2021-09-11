@@ -17,7 +17,7 @@ export default new Vuex.Store({
         userQuantity: 0,
         totalPrice: 0,
         userOrders: [],
-        favourite: "green"
+        favorites: []
     },
     mutations: {
         userInfo(state, payload) {
@@ -50,11 +50,8 @@ export default new Vuex.Store({
         addByTotalPrice(state, payload) {
             state.totalPrice = state.totalPrice + payload
         },
-        toFavourite(state, payload) {
-            state.favourite = payload
-        },
-        changeColor(state, payload){
-            state.favourite = payload
+        addFavorites(state, payload) {
+            state.favourites = [payload, ...state.favourites]
         }
     },
 
@@ -63,9 +60,11 @@ export default new Vuex.Store({
             console.log(payload)
             const item = state.userCart.filter(item => item.data._id === payload.data._id).length
             if (item) {
-                console.log("already there")
+                state.message = `You already have ${payload.data.name} in Your cart`
             } else {
+                state.message = `You just added ${payload.data.name} to cart`
                 commit('userCart', payload)
+
             }
         },
         add({commit, state}, payload) {
@@ -75,6 +74,15 @@ export default new Vuex.Store({
         minus({commit, state}, payload) {
             state.totalPrice -= payload.data.price
             commit('minus', payload.quantity)
+        },
+        getUserName({commit, state}) {
+            if (JSON.parse(localStorage.getItem("shop-user"))) {
+                let user = JSON.parse(localStorage.getItem("shop-user"))
+                let token = localStorage.getItem("userauth");
+                commit('userInfo', user)
+                // commit('favourites', favourites)
+                state.token = token
+            }
         },
         async register({commit, state}, payload) {
             let response = await fetch(`${state.url}/user/signUp`, {
@@ -111,15 +119,6 @@ export default new Vuex.Store({
             } catch (e) {
                 console.log(e);
                 state.message = e.message
-            }
-        },
-        getUserName({commit, state}) {
-            if (JSON.parse(localStorage.getItem("shop-user"))) {
-                let user = JSON.parse(localStorage.getItem("shop-user"))
-                let token = localStorage.getItem("userauth");
-                commit('userInfo', user)
-                // commit('favourites', favourites)
-                state.token = token
             }
         },
         async logout({state, dispatch}) {
@@ -221,9 +220,10 @@ export default new Vuex.Store({
 
             state.message = "Thank You"
 
-            setInterval(function () {
+           let stop = setInterval(function () {
                 window.location.reload()
             }, 2000);
+
 
             try {
                 let response = await fetch(`${state.url}/user/cart`, {
@@ -311,7 +311,12 @@ export default new Vuex.Store({
                 });
 
                 if (response.status !== 200) throw await response.json();
+                state.message = `You just change ${payload.name} item`
+                setTimeout(function () {
+                    state.message = ""
+                }, 2000);
                 dispatch('getAllPosts')
+                dispatch('getUserPosts')
             } catch (e) {
                 console.log(e);
             }
@@ -328,8 +333,6 @@ export default new Vuex.Store({
             console.log(data)
             commit('userOrders', data)
         },
-
-
     },
 
 })

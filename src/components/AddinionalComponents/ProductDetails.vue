@@ -1,7 +1,6 @@
 <template>
-  <div>
+  <div class="d-flex">
     <div v-for="item in singlePost" class="product-detail">
-
       <div>
         <div class="product-detail-top">
           <h2>{{ item.name }}</h2>
@@ -35,13 +34,15 @@
               <button @click="toCart(item)">Add to cart</button>
               <button @click="toFavourites(item)">Add to Favourite</button>
             </div>
+            <div class="message">
+              <h2>{{$store.state.message}}</h2>
+              <h3>{{ message }}</h3>
+            </div>
+
             <input type="number" v-model="quantity"/>
           </div>
         </div>
       </div>
-    </div>
-    <div class="message">
-      <h3>{{ message }}</h3>
     </div>
 
   </div>
@@ -49,6 +50,9 @@
 
 <script>
 
+
+
+////bugas pridejus didesni kieki vis dar leidzia ji pirkti
 
 import CarouselComponent from "../Gallery/CarouselComponent";
 
@@ -60,14 +64,16 @@ export default {
       quantity: 1,
       message: "",
       color: "",
-      id: null,
-
     }
   },
   methods: {
     toCart(item) {
       if (item.userName === this.$store.state.user.userName) {
         this.message = "This is your own item"
+         setInterval(function () {
+          this.message = "This is your own item2"
+        }, 2000);
+
       } else if (this.quantity > item.quantity && this.quantity < 0) {
         this.message = "No more"
       } else {
@@ -81,8 +87,6 @@ export default {
     toFavourites(item) {
       let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
-      this.id = item._id
-
       let id = item._id,
           index = favorites.indexOf(id);
 
@@ -90,9 +94,11 @@ export default {
 
       if (index === -1) {
         favorites.push(id);
+        this.$store.state.favorites.push(item)
         this.color = "green"
       } else {
         favorites.splice(index, 1);
+        this.$store.state.favorites.splice(item, 1)
         this.color = ""
       }
 
@@ -106,19 +112,6 @@ export default {
     isLoggin() {
       return this.$store.state.user.userStatus
     },
-    favourite(){
-      return this.$store.state.favourite
-    },
-    check(){
-    //   let item = item._id
-    //   console.log(item)
-
-
-      // this.color = favorites.indexOf(id) === -1 ? "" : "green"
-    // const checking = favorites.indexOf(id) === -1 ? this.color = "white" : this.color = "green"
-    // console.log(checking)
-
-    }
   },
   beforeUpdate() {
     let favorites = JSON.parse(localStorage.getItem('favorites')) || []

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h2>{{$store.state.message}}</h2>
     <div>
       <div v-if="userPosts.length <= 0 ">
         <h3>You havnt posted any post yet</h3>
@@ -21,6 +22,7 @@
           <OrdersOrdered/>
         </div>
       </div>
+      {{$store.state.favorites}}
     </div>
   </div>
 </template>
