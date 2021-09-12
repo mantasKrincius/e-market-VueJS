@@ -39,11 +39,6 @@ import Hero from "../Hero/Hero";
 export default {
   name: "ToolBar",
   components: {Hero, Logout},
-  methods: {
-    toProfile() {
-      this.$router.push(`/profile/${this.user.userName}`)
-    }
-  },
   computed: {
     isLoggin() {
       return this.$store.state.user.userStatus
@@ -59,6 +54,12 @@ export default {
 </script>
 
 <style scoped>
+
+.post-decoration:hover {
+  background-color: red;
+  transition: 0.6s;
+}
+
 .post-decoration {
   padding: 10px;
   border: 1px solid red;

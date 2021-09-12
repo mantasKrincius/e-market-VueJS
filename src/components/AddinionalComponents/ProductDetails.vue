@@ -35,8 +35,8 @@
               <button @click="toFavourites(item)">Add to Favourite</button>
             </div>
             <div class="message">
-              <h2>{{$store.state.message}}</h2>
-              <h3>{{ message }}</h3>
+              <h5>{{ $store.state.message }}</h5>
+              <h5>{{ message }}</h5>
             </div>
 
             <input type="number" v-model="quantity"/>
@@ -50,9 +50,6 @@
 
 <script>
 
-
-
-////bugas pridejus didesni kieki vis dar leidzia ji pirkti
 
 import CarouselComponent from "../Gallery/CarouselComponent";
 
@@ -70,18 +67,16 @@ export default {
     toCart(item) {
       if (item.userName === this.$store.state.user.userName) {
         this.message = "This is your own item"
-         setInterval(function () {
-          this.message = "This is your own item2"
-        }, 2000);
-
-      } else if (this.quantity > item.quantity && this.quantity < 0) {
-        this.message = "No more"
+        setTimeout(() => this.message = "", 1000)
+      } else if (this.quantity > item.quantity && this.quantity > 0) {
+        this.message = "No more or not enough by Your request"
+        setTimeout(() => this.message = "", 1000)
+      } else if (this.quantity < 0) {
+        this.message = "Pasirinkite kieki"
+        setTimeout(() => this.message = "", 1000)
       } else {
-        let maxToPay = item.price * this.quantity
         this.$store.commit('quantity', this.quantity)
         this.$store.dispatch('addToCart', {data: item, quantity: this.quantity})
-        this.$store.commit('addByTotalPrice', maxToPay)
-        console.log(maxToPay)
       }
     },
     toFavourites(item) {
@@ -96,10 +91,14 @@ export default {
         favorites.push(id);
         this.$store.state.favorites.push(item)
         this.color = "green"
+        this.message = "Added to favourites"
+        setTimeout(() => this.message = "", 1000)
       } else {
         favorites.splice(index, 1);
         this.$store.state.favorites.splice(item, 1)
         this.color = ""
+        this.message = "Removed from favourites"
+        setTimeout(() => this.message = "", 1000)
       }
 
       localStorage.setItem('favorites', JSON.stringify(favorites));
@@ -115,15 +114,22 @@ export default {
   },
   beforeUpdate() {
     let favorites = JSON.parse(localStorage.getItem('favorites')) || []
-    for(let i in this.singlePost){
+    for (let i in this.singlePost) {
       let id = this.singlePost[i]
       this.color = favorites.indexOf(id._id) === -1 ? "" : "green"
     }
+  },
+  beforeDestroy() {
+    this.message = ""
   }
 }
 </script>
 
 <style scoped>
+.product-detail-controllers button:hover {
+  background-color: green;
+}
+
 #pop-up {
   top: -350px;
   animation: drop 1s ease forwards;
@@ -162,9 +168,7 @@ button {
   top: 400px;
   left: 0;
   right: 0;
-
 }
-
 
 .product-detail-controllers {
   padding: 40px;

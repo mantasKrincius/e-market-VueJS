@@ -17,7 +17,8 @@ export default new Vuex.Store({
         userQuantity: 0,
         totalPrice: 0,
         userOrders: [],
-        favorites: []
+        favorites: [],
+        functions: {}
     },
     mutations: {
         userInfo(state, payload) {
@@ -34,6 +35,11 @@ export default new Vuex.Store({
         },
         userCart(state, payload) {
             state.userCart = [payload, ...state.userCart]
+            let sum = 0
+            for (let i = 0; i < state.userCart.length; i++) {
+                sum += state.userCart[i].data.price * state.userCart[i].quantity
+            }
+            state.totalPrice = sum
         },
         quantity(state, payload) {
             state.userQuantity = payload
@@ -52,19 +58,21 @@ export default new Vuex.Store({
         },
         addFavorites(state, payload) {
             state.favourites = [payload, ...state.favourites]
-        }
+        },
     },
 
     actions: {
+
         addToCart({commit, state}, payload) {
             console.log(payload)
             const item = state.userCart.filter(item => item.data._id === payload.data._id).length
             if (item) {
                 state.message = `You already have ${payload.data.name} in Your cart`
+                setTimeout(() => state.message = "", 1000)
             } else {
                 state.message = `You just added ${payload.data.name} to cart`
+                setTimeout(() => state.message = "", 1000)
                 commit('userCart', payload)
-
             }
         },
         add({commit, state}, payload) {
@@ -80,7 +88,6 @@ export default new Vuex.Store({
                 let user = JSON.parse(localStorage.getItem("shop-user"))
                 let token = localStorage.getItem("userauth");
                 commit('userInfo', user)
-                // commit('favourites', favourites)
                 state.token = token
             }
         },
@@ -134,15 +141,18 @@ export default new Vuex.Store({
             state.user.userStatus = false
             state.user.name = ""
             state.user.token = ""
+            state.userCart = []
+            state.favorites = []
             localStorage.removeItem("userauth");
             localStorage.removeItem("shop-user");
+            localStorage.removeItem("favorites")
         },
         async addPost({commit, state, dispatch}, payload) {
             const formData = new FormData();
             if (!payload.name && !payload.price && !payload.quantity) {
                 return state.message = "need to fill"
             }
-
+            setTimeout(() => state.message = "", 1000)
             if (payload.productImage !== 0) {
                 formData.append("productImage", payload.productImage);
                 //paziureti
@@ -219,8 +229,7 @@ export default new Vuex.Store({
             }
 
             state.message = "Thank You"
-
-           let stop = setInterval(function () {
+            setInterval(function () {
                 window.location.reload()
             }, 2000);
 
@@ -254,7 +263,6 @@ export default new Vuex.Store({
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    //need to sort it out
                     userauth: state.token,
                 },
                 body: JSON.stringify(body),

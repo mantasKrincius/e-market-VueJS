@@ -40,8 +40,10 @@ export default {
       if (this.product.name.length >= 10 && this.product.name.length <= 100 && this.product.description.length >= 30 && this.product.description.length <= 100) {
         this.$store.dispatch('addPost', this.product)
         this.message = "Thank you, post uploaded"
+        setTimeout(() => this.message = "", 1000)
       } else {
         this.message = "Title must be: min 10/max 100 characters, description min 30/max 100 characters"
+        setTimeout(() => this.message = "", 1000)
       }
 
       console.log(this.product.productImage)

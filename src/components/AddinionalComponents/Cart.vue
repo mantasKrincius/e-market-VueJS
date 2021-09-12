@@ -21,7 +21,7 @@
         </div>
       </div>
       <div>
-        <h3>Total Price: {{ $store.state.totalPrice }}</h3>
+        <h3>Total Price: {{$store.state.totalPrice}}</h3>
         <button @click="buy">Buy</button>
       </div>
     </div>
@@ -34,8 +34,6 @@ export default {
   name: "Cart",
   data() {
     return {
-      amount: 0,
-      totalPay: 0,
     }
   },
   methods: {
@@ -63,13 +61,18 @@ export default {
     userCart() {
       return this.$store.state.userCart
     },
+    maxPay(){
+      let sum = 0
+      for(let i = 0; i < this.userCart.length; i++){
+        sum += this.userCart[i].data.price * this.userCart[i].quantity
+      }
+      return sum
+    },
   },
 }
 </script>
 
 <style scoped>
-
-
 .cart {
   margin: 5px 0;
   display: flex;

@@ -13,11 +13,16 @@ export default {
 <style scoped>
 .hero {
   height: 200px;
-  width: 100%;
+  max-width: 100%;
   background-color: #dbdadb;
   padding: 10px;
   display: flex;
   justify-content: center;
+}
+
+.hero img {
+  height: auto;
+  max-width: 100%;
 }
 
 
