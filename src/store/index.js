@@ -68,10 +68,10 @@ export default new Vuex.Store({
             const item = state.userCart.filter(item => item.data._id === payload.data._id).length
             if (item) {
                 state.message = `You already have ${payload.data.name} in Your cart`
-                setTimeout(() => state.message = "", 1000)
+                setTimeout(() => state.message = "", 3000)
             } else {
                 state.message = `You just added ${payload.data.name} to cart`
-                setTimeout(() => state.message = "", 1000)
+                setTimeout(() => state.message = "", 3000)
                 commit('userCart', payload)
             }
         },
@@ -113,6 +113,7 @@ export default new Vuex.Store({
                     },
                     body: JSON.stringify(payload),
                 });
+                setTimeout(() => state.message = "", 3000)
                 console.log(response)
                 if (response.status !== 200) throw await response.json();
                 let token = response.headers.get("userauth");
@@ -152,7 +153,7 @@ export default new Vuex.Store({
             if (!payload.name && !payload.price && !payload.quantity) {
                 return state.message = "need to fill"
             }
-            setTimeout(() => state.message = "", 1000)
+            setTimeout(() => state.message = "", 3000)
             if (payload.productImage !== 0) {
                 formData.append("productImage", payload.productImage);
                 //paziureti

@@ -22,7 +22,19 @@
           <OrdersOrdered/>
         </div>
       </div>
-      {{$store.state.favorites}}
+
+      <div>
+        <div v-if="userFavourites.length <= 0 ">
+          <h3>You dont have any favourite post</h3>
+        </div>
+        <div v-else>
+          <h3>User Favourites</h3>
+          <div class="d-flex">
+            <Favourites/>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -30,16 +42,20 @@
 <script>
 import UserPosts from "./UserPosts";
 import OrdersOrdered from "./OrdersOrdered";
+import Favourites from "../Favourites/Favourites";
 
 export default {
   name: "Profile",
-  components: {OrdersOrdered, UserPosts},
+  components: {Favourites, OrdersOrdered, UserPosts},
   computed: {
     userPosts() {
       return this.$store.state.userPosts
     },
     userOrders() {
       return this.$store.state.userOrders
+    },
+    userFavourites() {
+       return this.$store.state.favorites
     }
   }
 }

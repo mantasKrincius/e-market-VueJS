@@ -19,7 +19,7 @@
       </span>
       <div>
         <div class="product-detail-user-bar">
-          <div class="product-detail-user-bar-name" :style="{backgroundColor: color}">
+          <div class="product-detail-user-bar-name" :style="{color: color}">
             <h6>Add by: {{ item.userName }}</h6>
           </div>
           <div>
@@ -29,10 +29,13 @@
           <div>
             <h4>Quantity: {{ item.quantity }}</h4>
           </div>
-          <div class="product-detail-controllers">
-            <div>
+          <div>
+            <div class="product-detail-controllers">
               <button @click="toCart(item)">Add to cart</button>
-              <button @click="toFavourites(item)">Add to Favourite</button>
+              <div class="favourite-button" @click="toFavourites(item)">
+                <i class="fas fa-heart" :style="{color: color}"></i>
+                Favourite
+              </div>
             </div>
             <div class="message">
               <h5>{{ $store.state.message }}</h5>
@@ -67,13 +70,13 @@ export default {
     toCart(item) {
       if (item.userName === this.$store.state.user.userName) {
         this.message = "This is your own item"
-        setTimeout(() => this.message = "", 1000)
+        setTimeout(() => this.message = "", 2500)
       } else if (this.quantity > item.quantity && this.quantity > 0) {
         this.message = "No more or not enough by Your request"
-        setTimeout(() => this.message = "", 1000)
+        setTimeout(() => this.message = "", 2500)
       } else if (this.quantity < 0) {
-        this.message = "Pasirinkite kieki"
-        setTimeout(() => this.message = "", 1000)
+        this.message = "Wrong quantity, please check it"
+        setTimeout(() => this.message = "", 2500)
       } else {
         this.$store.commit('quantity', this.quantity)
         this.$store.dispatch('addToCart', {data: item, quantity: this.quantity})
@@ -92,13 +95,13 @@ export default {
         this.$store.state.favorites.push(item)
         this.color = "green"
         this.message = "Added to favourites"
-        setTimeout(() => this.message = "", 1000)
+        setTimeout(() => this.message = "", 2500)
       } else {
         favorites.splice(index, 1);
         this.$store.state.favorites.splice(item, 1)
         this.color = ""
         this.message = "Removed from favourites"
-        setTimeout(() => this.message = "", 1000)
+        setTimeout(() => this.message = "", 2500)
       }
 
       localStorage.setItem('favorites', JSON.stringify(favorites));
@@ -116,7 +119,7 @@ export default {
     let favorites = JSON.parse(localStorage.getItem('favorites')) || []
     for (let i in this.singlePost) {
       let id = this.singlePost[i]
-      this.color = favorites.indexOf(id._id) === -1 ? "" : "green"
+      this.color = favorites.indexOf(id._id) === -1 ? "" : "#cc4e5c"
     }
   },
   beforeDestroy() {
@@ -126,8 +129,26 @@ export default {
 </script>
 
 <style scoped>
+
+.favourite-button {
+  background-color: white;
+  display: flex;
+  align-items: center;
+  padding: 5px 20px;
+  border: 1px solid rgba(0, 0, 0, 0.1 ) ;
+}
+
+.favourite-button:hover {
+  background-color: #3c3241;
+  color: white;
+}
+
 .product-detail-controllers button:hover {
-  background-color: green;
+  background-color: #99313d;
+}
+
+input {
+  margin: 10px 0;
 }
 
 #pop-up {
@@ -146,6 +167,10 @@ export default {
     transform: translateY(650px);
     opacity: 1;
   }
+}
+
+i {
+  font-size: 25px;
 }
 
 button {
@@ -171,9 +196,8 @@ button {
 }
 
 .product-detail-controllers {
-  padding: 40px;
+  padding: 20px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
@@ -193,12 +217,16 @@ button {
   width: 400px;
   display: flex;
   flex-direction: column;
-  border: 1px solid gray;
+  border: 1px solid rgba(0,2,3, 0.2);
 }
 
 .product-detail-top {
   display: flex;
   justify-content: space-between;
   max-width: 1200px;
+}
+
+.stop h2 {
+  color: #b61f30;
 }
 </style>

@@ -28,16 +28,16 @@ export default {
   },
   methods: {
     submitForm() {
-      if(this.user.password === this.user.repeatPassword && this.user.userName.length > 10 && this.user.userName.length <= 30) {
+      if(this.user.password === this.user.repeatPassword && this.user.userName.length > 3 && this.user.userName.length <= 30) {
         this.$store.dispatch('register', this.user)
         this.message = "Thank you, now you can login"
-        setTimeout(() => this.message = "", 1000)
+        setTimeout(() => this.message = "", 3000)
         this.user.userName = ""
         this.user.password = ""
         this.user.repeatPassword = ""
       } else {
-        this.message = "Your passwords doesnt match or your username not match parameters: min 10/max 30 symbols"
-        setTimeout(() => this.message = "", 1000)
+        this.message = "Your passwords doesnt match or your username not match parameters: min 3/max 30 symbols"
+        setTimeout(() => this.message = "", 3000)
       }
     }
   }

@@ -61,13 +61,6 @@ export default {
     userCart() {
       return this.$store.state.userCart
     },
-    maxPay(){
-      let sum = 0
-      for(let i = 0; i < this.userCart.length; i++){
-        sum += this.userCart[i].data.price * this.userCart[i].quantity
-      }
-      return sum
-    },
   },
 }
 </script>

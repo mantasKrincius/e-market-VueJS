@@ -74,6 +74,14 @@ export default {
   margin: 5px 0;
 }
 
+button {
+  margin: 2px;
+}
+
+button:hover {
+ color: #cc4e5c;
+}
+
 input {
   width: 300px;
   margin: 5px 0;

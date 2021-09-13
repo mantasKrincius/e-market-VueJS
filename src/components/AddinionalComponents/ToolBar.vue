@@ -28,7 +28,10 @@
       </div>
     </div>
     <Hero/>
-    <router-view/>
+    <transition name="fade" mode="out-in">
+      <router-view/>
+    </transition>
+
   </div>
 </template>
 
@@ -55,14 +58,27 @@ export default {
 
 <style scoped>
 
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+  transform: translateX(2em);
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: all 0.3s ease-in-out;
+}
+
 .post-decoration:hover {
-  background-color: red;
+  background-color: #cc4e5c;
   transition: 0.6s;
 }
 
 .post-decoration {
   padding: 10px;
-  border: 1px solid red;
+  border: 1px solid #cc4e5c;
+}
+
+i:hover {
+ color: #cc4e5c;
 }
 
 i {
